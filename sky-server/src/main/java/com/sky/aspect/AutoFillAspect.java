@@ -3,7 +3,7 @@ package com.sky.aspect;
 import com.sky.annotation.AutoFill;
 import com.sky.constant.AutoFillConstant;
 import com.sky.context.BaseContext;
-import com.sky.enumeration.Operationtype;
+import com.sky.enumeration.OperationType;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -38,7 +38,7 @@ public class AutoFillAspect {
         // 获取到当前被拦截的方法上的数据库操作类型
         MethodSignature signature = (MethodSignature) joinPoint.getSignature(); // 方法签名对象
         AutoFill autoFill = signature.getMethod().getAnnotation(AutoFill.class);
-        Operationtype operationtype = autoFill.value();
+        OperationType operationtype = autoFill.value();
 
         //获取到当前被拦截的方法的参数--实体对象
         Object[] args = joinPoint.getArgs();
@@ -53,7 +53,7 @@ public class AutoFillAspect {
         Long currentId = BaseContext.getCurrentId();
 
         //根据当前不同的操作类型，为对应的属性通过反射来赋值
-        if(operationtype == Operationtype.INSERT){
+        if(operationtype == OperationType.INSERT){
             try{
                 /**
                  * 为什么在这段代码里不直接用entity对象调用方法，而是用反射？
@@ -80,7 +80,7 @@ public class AutoFillAspect {
             } catch(Exception e){
                 e.printStackTrace();
             }
-        } else if(operationtype == Operationtype.UPDATE){
+        } else if(operationtype == OperationType.UPDATE){
             try{
                 Method setUpdateTime = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME, LocalDateTime.class);
                 Method setUpadteUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_USER, Long.class);

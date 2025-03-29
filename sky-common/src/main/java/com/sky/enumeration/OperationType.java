@@ -1,6 +1,6 @@
 package com.sky.enumeration;
 
-public enum Operationtype {
+public enum OperationType {
     UPDATE,
     INSERT
 }
